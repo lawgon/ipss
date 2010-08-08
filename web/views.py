@@ -19,6 +19,21 @@ from django.forms import ModelForm
 from django.contrib.admin import widgets
 from django.db.models.signals import post_save
 
+def makemsg(username,url):
+    """
+    Email body to be sent to user.
+    """
+    msg = _("\
+Dear %(username)s,\n\n\
+\
+Thank you for registering with us. Please visit this url:\n\n\
+%(url)s\n\n\
+to complete the registration\n\n\
+regards\n\
+IPSS Team\
+") %{'username': username,'url': url}
+    return msg
+
 menu_items = [
 
                 {"name":_("Home"),"url":"home/","id":""},
@@ -94,10 +109,12 @@ def register(request):
                 return HttpResponseRedirect("/regthank/%i/" % new_reg.id)
     else:
         form = TempRegisterform()
-    return render_to_response("web/register.html",
+    return render_to_response('web/register.html',
+                        context_instance=RequestContext(request,
+    
                               {"form":form.as_table(),
                                "request":request,
-                               })
+                               }))
                                
 def regthank(request,id):
     """need just one view for all messages and warnings

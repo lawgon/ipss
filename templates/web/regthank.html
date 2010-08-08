@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <h2>{% trans "Thank you for registering" %}</h2>
+
+    {% if p %}
+        <p>{% trans "Dear" %} {{ p.username }}, 
+your key is sent to {{ p.email }} follow the instructions there to continue the registration process. The key will expire in a day or so, so dont delay too long before confirming your registration.</p>
+    {% else %}
+        <p>{% trans "something went wrong" %}</p>
+    {% endif %}
+{% endblock %}

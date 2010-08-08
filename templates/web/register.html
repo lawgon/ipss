@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <div class="sideheading">{% trans "Register" %}</div>
+    <div id="search">
+      <form method="POST" action=".">{% csrf_token %}
+        <table>
+          {{ form }}
+        </table>
+        <p><input type="submit" name="Register" value="{% trans "Register" %}" class="btn"></p>
+      </form>
+      <script type="text/javascript">
+    document.getElementById('id_username').focus();
+      </script>
+   </div>
+{% endblock %}
