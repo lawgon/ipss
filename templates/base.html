@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+    {% load i18n %}
+    {% load base_utils %}
+    {% get_current_language as LANGUAGE_CODE %}
+    {% get_available_languages as LANGUAGES %}
+    {% get_current_language_bidi as LANGUAGE_BIDI %}
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Indian Python Software Society</title>
+        <link rel="stylesheet" href="/sitemedia/css/blueprint/screen.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="/sitemedia/css/blueprint/print.css" type="text/css" media="print">
+        <!--[if IE]><link rel="stylesheet" href="/sitemedia/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+        <link rel="stylesheet" href="/sitemedia/css/layout.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="/sitemedia/css/jquery-ui.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="/sitemedia/css/ui.tree.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="/sitemedia/js/jquery.js"></script>
+    <script type="text/javascript" src="/sitemedia/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/sitemedia/js/ui.tree.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#dte").datepicker({ dateFormat: 'yy-mm-dd'});
+      });
+    </script>
+    {% block head %}
+    {% endblock %}
+    </head>
+    <body>
+
+<div class="container">
+    <div class="span-18">
+        <img src="/sitemedia/pics/masthead.jpg" width="720" align="center"/>
+    </div>
+
+        <div class="span-5 box last">
+            <div>
+            {% if request.user.username %}
+                        {% trans "Welcome "%} {{request.user.username}}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                              <a href="/logout/" >{% trans "logout" %}</a><br/>
+             
+            
+
+            {% else %}
+                    <a   href="/login/" >{% trans "login" %}</a>
+
+                        <a   href="/register/" >{% trans "register" %}</a>
+
+            {% endif %}
+            
+            </div>
+        </div>
+ <hr class="space">
+    <div class="span-3 box">
+      <h4>Menu</h4>
+
+
+                {% get_menu %}
+        <ul>
+                {% for p in mn %}
+
+                    <li >
+                    <a href = "/{{ p.url }}" {{ p.id }}> {{ p.name }}
+                    </a>
+                    </li>
+
+                {% endfor %}
+        </ul>
+      <h4>Admin</h4>
+
+
+                {% get_logged_menu %}
+        <ul>
+                {% for x in lmn %}
+
+                    <li >
+                    <a href = "/{{ x.url }}" {{ x.id }}> {{ x.name }}
+                    </a>
+                    </li>
+
+                {% endfor %}
+        </ul>
+    </div>
+
+    <div class="span-16">
+
+        {% block centercontent %}
+        {% endblock %}
+    </div>
+    <div class="span-3 box last">
+
+        {% block rightcontent %}
+        
+        {% endblock %}
+    </div>
+
+
+ <hr class="space">
+
+
+    <div class="span-24">
+        <p class="small" align="center">
+        Built by <a href="mailto:webmaster@xlquest.net">xlquest</a>, powered by linux, python, postgresql and django. Copyright ipss
+        </p>
+    </div>
+
+
+
+</div>
+{% block extra_js %}
+{% endblock %}
+    </body>
+</html>

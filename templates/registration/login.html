@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+<h2>{% trans "Login" %}</h2>
+
+<div>
+<form method="POST" action=".">
+<table>
+{{ form.as_table }}
+</table>
+<input type="submit" value={% trans "Login" %}>
+<input type="hidden" name="next" value="{% url edit_user %}">
+</form>
+</div>
+<hr class="space">
+<div>
+ <p><a href="{% url password_reset %}" >{% trans "Forgot Password?" %}</a></p> 
+
+<script type="text/javascript">
+  document.getElementById('id_username').focus();
+</script>
+</div>
+
+{% endblock %}
