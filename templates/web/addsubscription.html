@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <h2>{% trans "Add payment details" %}</h2>
+    <form method="POST" action=".">{% csrf_token %}
+    <table>
+        {{ form }}
+        </table>
+        <input type="submit" name="Register" value='{% trans "Submit" %}'> </p>
+    </form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+
+    <h2>{% trans "Welcome to the Indian Python Software Society" %}</h2>
+   
+<h4>
+ {% blocktrans %}
+The IPSS was formed on 4-2-2010 with the main objective of having a registered organisation to 
+be able to conduct the annual PyCon India in an orderly manner. The registration documents of the society 
+are <a href="http://wiki.python.org/moin/CategoryIndianPythonSoftwareSociety">here</a>
+ {% endblocktrans %}
+ </h4>
+   
+ {% blocktrans %}
+ <p>This site is for the purpose of enrolling members and maintaining their subscriptions. If you wish to 
+ join the society, please register, login and apply.</p>
+ 
+ There are the following classes of members
+ <ul>
+ <li>Donor - one time payment of Rs 1 lakh or more - one vote</li>
+ <li>Companies - annual payment of Rs. 5,000 - one vote</li>
+ <li>Institutions - annual payment of Rs. 5,000 - one vote</li>
+ <li>Regular members - annual payment of Rs. 500 - one vote</li>
+  <li>Students - annual payment of Rs. 200 - no vote. </li>
+  
+ </ul>
+ {% endblocktrans %}
+ 
+
+
+
+
+{% endblock %}

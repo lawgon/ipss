@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <h2>{% trans "Pending members" %}</h2>
+
+    {% if pms %}
+    <p>{% trans "Click on a name to see details and vote" %}</p>
+        <table>
+            <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Accept" %}</th>
+                <th>{% trans "Reject" %}</th>
+                <th>{% trans "Neutral" %}</th>
+            </tr>
+            {% for p in pms %}
+            <tr>
+                <td><a href="{% url vote id=p.id %}">{{p}}</a> </td>
+                <td>{{p.accept}} </td>
+                <td>{{p.reject}} </td>
+                <td>{{p.neutral}} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{% trans "No pending members" %}</p>
+    {% endif %}
+{% endblock %}

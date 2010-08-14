@@ -1,9 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -19,6 +20,18 @@ VOTES=(
     ('A', _("Accept")),
     ('R', _("Reject")),
     ('N', _("Neutral")),
+    )
+    
+DESCRIPTIONS=(
+    ('1', _("Subscription 2010-2011")),
+    ('2', _("Subscription 2011-2012")),
+    ('3', _("Subscription 2012-2013")),
+    ('4', _("Subscription 2013-2014")),
+    ('5', _("Subscription 2014-2015")),
+    ('6', _("Subscription 2015-2016")),
+    ('7', _("Subscription 2016-2017")),
+    ('8', _("Subscription 2017-2018")),
+    ('9', _("Subscription 2018-2019")),
     )
 
 
@@ -50,7 +63,7 @@ class City(models.Model):
         return "%s" %(self.name)
         
 class Member(models.Model):
-    username = models.ForeignKey(User, related_name = "delegate_user_name",
+    username = models.ForeignKey(User, related_name = "member_user_name",
                                    unique = True,verbose_name = _("User Name"))
     address = models.TextField(_("Address"))
     city = models.ForeignKey(City,verbose_name= _("Town or city"))
@@ -59,10 +72,33 @@ class Member(models.Model):
     joindate = models.DateTimeField(_("Date of registration"),default=datetime.now,
                                     editable=False)
     membershiptype = models.CharField(_("Membershiptype"),max_length=1,choices=MEMBERSHIPTYPES)
+    companyname = models.CharField(_("Company or institution name"),max_length=200,blank=True,null=True,
+                help_text=_("Only for institutional memberships"))
     reason = models.TextField(_("Reason for joining"))
     admitted = models.BooleanField(_("Admitted"),default=False)
     admitdate = models.DateTimeField(_("Date of admission"),blank=True,null=True)
     
+    def accept(self):
+        votes = self.candidate.all()
+        tot = 0
+        for vote in votes:
+            if vote.votecast=='A':
+                tot +=1
+        return tot
+    def reject(self):
+        votes = self.candidate.all()
+        tot = 0
+        for vote in votes:
+            if vote.votecast=='R':
+                tot +=1
+        return tot
+    def neutral(self):
+        votes = self.candidate.all()
+        tot = 0
+        for vote in votes:
+            if vote.votecast=='N':
+                tot +=1
+        return tot
 
     def __unicode__(self):
         return User.objects.get(username=self.username.username).get_full_name()
@@ -72,12 +108,19 @@ class Member(models.Model):
         
 class Subscription(models.Model):
     member = models.ForeignKey(Member,verbose_name=_("Member"))
-    datepaid = models.DateField(_("Date paid"),blank=True,null=True)
-    paid = models.BooleanField(_("Paid"),default = False)
+    amount = models.DecimalField(_("Amount"),max_digits=10,decimal_places=2)
+    description = models.CharField(_("Description"),max_length=2,choices=DESCRIPTIONS)
+    dategenerated = models.DateField(_("Date generated"))
+    datepaid = models.DateField(_("Date paid"),blank=True,null=True)    
     paymentdetails = models.TextField(_("Payment details"),blank=True,null=True)
+    paid = models.BooleanField(_("Paid"),default = False)
     
+    class Meta:
+        unique_together = ('member','description')
     def __unicode__(self):
-        return u"%s %s %s" %(self.member,self.year,self.paid)
+        return u"%s %s %s" %(self.member,self.description,self.paid)
+        
+
         
 class Vote(models.Model):
     voter = models.ForeignKey(Member,verbose_name = _("Committee member"))
@@ -88,3 +131,5 @@ class Vote(models.Model):
         unique_together=('voter','candidate')
     def __unicode__(self):
         return u"%s %s %s" %(self.voter,self.candidate,self.votecast)
+        
+

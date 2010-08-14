@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+<h3>{% trans "Cast vote on: "%}{{pm}}<br/>
+</h3>
+
+<table>
+    <tr>
+        <th>{% trans "Membership type"%}</th><td>{{pm.get_membershiptype_display}}</td>
+       
+    </tr>
+    {% if pm.companyname %}
+    <tr>
+        <th>{% trans "Institution name"%}</th><td>{{pm.companyname}}</td>
+       
+    </tr>
+    {% endif %}
+    <tr>
+        <th>{% trans "Occupation"%}</th><td>{{pm.occupation}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "City"%}</th><td>{{pm.city}}</td>
+       
+    </tr>
+    <tr>
+        <th>{% trans "Address"%}</th><td>{{pm.address}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Remarks"%}</th><td>{{pm.reason}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Application date"%}</th><td>{{pm.joindate}}</td>
+       
+    </tr>
+    
+</table>
+        
+<h2>{% trans "Complete registration" %}</h2>
+    <form method="POST" action=".">{% csrf_token %}
+    <table>
+        {{ form }}
+        </table>
+        <input type="submit" name="Register" value='{% trans "Vote" %}'> </p>
+    </form>
+
+{% endblock %}
