@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <h2>{% trans "Members" %}</h2>
+
+    {% if mems %}
+        <table>
+            <tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Membership type" %}</th>
+                <th>{% trans "Occupation" %}</th>
+                <th>{% trans "City" %}</th>
+            </tr>
+            {% for p in mems %}
+            <tr>
+                <td>{{p}}</a> </td>
+                <td>{{p.get_membershiptype_display}} </td>
+                <td>{{p.occupation}} </td>
+                <td>{{p.city}} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{% trans "No members" %}</p>
+    {% endif %}
+{% endblock %}

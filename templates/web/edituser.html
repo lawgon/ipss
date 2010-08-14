@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <div class="sideheading">{% trans "Membership application form:" %} {{ form.data.username }}</div>
+    
+    <p>{% if form.errors %} Please correct the errors below {% endif %}</p>
+    <form enctype="multipart/form-data" method="POST" action=".">{% csrf_token %}
+        <dl>
+            {% for field in form %}
+                <dt>{{ field.label_tag }}</dt>
+                
+                <dd>{{ field }}</dd>
+                {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+                {% if field.errors %}<dd>{{ field.errors }}</dd>{% endif %}
+            {% endfor %}
+        </dl>
+        <input type="submit" name="Register" value="{% trans "Submit" %}"></p>
+    </form>
+     
+{% endblock %}

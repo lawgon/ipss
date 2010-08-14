@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+<h3>{% trans "Status of: "%}{{request.user}}<br/>
+{% trans "Name" %} {{request.user.first_name}} {{request.user.last_name}}</h3>
+{% if request.user.member_user_name.all %}
+<table>
+    <tr>
+        <th>{% trans "Membership type"%}</th><td>{{request.user.member_user_name.all.0.get_membershiptype_display}}</td>
+       
+    </tr>
+    {% if request.user.member_user_name.all.0.companyname %}
+    <tr>
+        <th>{% trans "Institution name"%}</th><td>{{request.user.member_user_name.all.0.companyname}}</td>
+       
+    </tr>
+    {% endif %}
+    <tr>
+        <th>{% trans "Occupation"%}</th><td>{{request.user.member_user_name.all.0.occupation}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "City"%}</th><td>{{request.user.member_user_name.all.0.city}}</td>
+       
+    </tr>
+    <tr>
+        <th>{% trans "Address"%}</th><td>{{request.user.member_user_name.all.0.address}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Remarks"%}</th><td>{{request.user.member_user_name.all.0.reason}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Application date"%}</th><td>{{request.user.member_user_name.all.0.joindate}}</td>
+       
+    </tr>
+    <tr>
+        <th>{% trans "Admitted"%}</th><td>{{request.user.member_user_name.all.0.admitted}}</td>
+    </tr>
+    <tr>
+        <th>{% trans "Date of admission"%}</th><td>{{request.user.member_user_name.all.0.admitdate}}</td>
+    </tr>
+</table>
+        {% if request.user.member_user_name.all.0.admitted %}
+        <h3>{% trans "Invoices" %}</h3>
+        <table>
+            <tr>
+                <th> {% trans "Number"%}</th>
+                <th> {% trans "Date"%}</th>
+                <th> {% trans "Description"%}</th>
+                <th> {% trans "Amount"%}</th>
+                <th> {% trans "Date Paid"%}</th>
+                <th> {% trans "Payment details"%}</th>
+                <th> {% trans "Paid"%}</th>
+                <th> {% trans "Action"%}</th>
+            </tr>
+            {% for x in request.user.member_user_name.all.0.subscription_set.all %}
+            <tr>
+                <td> {{x.id}}</td>
+                <td> {{x.dategenerated}}</td>
+                <td> {{x.get_description_display}}</td>
+                <td> {{x.amount}}</td>
+                <td> {{x.datepaid}}</td>
+                <td> {{x.paymentdetails}}</td>
+                <td> {{x.paid}}</td>
+                <td> {% if x.paid %}
+                {% trans "None" %}
+                {% else %}
+                <a href="{% url addsubscription id=x.id %}">{% trans "Add/edit payment details" %}</a>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        
+        {% endif %}
+{% else %}
+{% trans "No application made" %}
+<p><a href="/edituser/">{% trans "Apply"%}</a></p>
+{% endif %}
+
+{% endblock %}
