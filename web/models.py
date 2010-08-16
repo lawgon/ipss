@@ -78,6 +78,12 @@ class Member(models.Model):
     admitted = models.BooleanField(_("Admitted"),default=False)
     admitdate = models.DateTimeField(_("Date of admission"),blank=True,null=True)
     
+    def memtypeshort(self):
+        return self.get_membershiptype_display().split()[0]
+    
+    def iscommittee(self):
+        return self.username.groups.filter(name='committee').count() > 0
+    
     def accept(self):
         votes = self.candidate.all()
         tot = 0
@@ -101,7 +107,10 @@ class Member(models.Model):
         return tot
 
     def __unicode__(self):
-        return User.objects.get(username=self.username.username).get_full_name()
+        if self.membershiptype in ['C','A']:
+            return self.companyname
+        else:
+            return User.objects.get(username=self.username.username).get_full_name()
 
     def get_absolute_url(self):
         return u"/memberfull/%d/" %(self.id)

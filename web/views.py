@@ -78,12 +78,15 @@ menu_items = [
               ]
 logged_menu_items = [
 
-                {"name":_("Application form"),"url":"edituser/","id":""},
-                {"name":_("Pending Members"),"url":"pendingmembers/","id":""},
                 {"name":_("Members"),"url":"members/","id":""},
                 {"name":_("Add city"),"url":"addcity/","id":""},
                 {"name":_("Add occupation"),"url":"addoccupation/","id":""},
                 {"name":_("Account Status"),"url":"status/","id":""},
+                
+              ]
+admin_menu_items = [
+
+                {"name":_("Pending Members"),"url":"pendingmembers/","id":""},
                 
               ]
               
@@ -506,13 +509,12 @@ def applicationhandler(sender,**kwargs):
         """
     frm = settings.DEFAULT_FROM_EMAIL
     if kwargs['created']:
-        msg = newmem(kwargs['instance'])
-        subj = _("New membership application") %(Site.objects.get_current().domain)
-        url = "http://%s/pendingmembers/" 
+        subj = _("New membership application") 
+        url = "http://%s/pendingmembers/" %(Site.objects.get_current().domain)
         
         com = Group.objects.get(name="committee")
-        for cm in com:
-            to = cm.email
+        for cm in com.user_set.all():
+            to = [cm.email]
             msg = comnotmsg(cm.username,url)
             send_mail(subj,msg,frm,to)
             
@@ -530,5 +532,28 @@ def applicationhandler(sender,**kwargs):
         
    
 post_save.connect(applicationhandler, sender=Member)
+
+def paymenthandler(sender,**kwargs):
+    """
+        if created then mail goes to committee, if admitted then
+        a subscription is created.
+        """
+    frm = settings.DEFAULT_FROM_EMAIL
+    if not kwargs['created']:
+        if not kwargs['instance'].paid and kwargs['instance'].paymentdetails:
+            subj = _("payment made") 
+            url = "http://%s/admin/web/subscription/%d/" %(Site.objects.get_current().domain,
+                                                            int(kwargs['instance'].id))
+            msg = _("Please verify the payment and mark as paid")
+            com = Group.objects.get(name="treasurer")
+            for cm in com.user_set.all():
+                to = [cm.email]
+                
+                send_mail(subj,msg,frm,to)
+                
+    
+        
+   
+post_save.connect(applicationhandler, sender=Subscription)
     
                                                               

@@ -69,7 +69,7 @@
                 {% endfor %}
         </ul>
         {% if request.user.username %}
-      <h4>Admin</h4>
+      <h4>Members</h4>
 
 
                 {% get_logged_menu %}
@@ -78,6 +78,22 @@
 
                     <li >
                     <a href = "/{{ x.url }}" {{ x.id }}> {{ x.name }}
+                    </a>
+                    </li>
+
+                {% endfor %}
+        </ul>
+        {% endif %}
+        {% if request.user.member_user_name.all.0.iscommittee %}
+      <h4>Admin</h4>
+
+
+                {% get_admin_menu %}
+        <ul>
+                {% for y in adm %}
+
+                    <li >
+                    <a href = "/{{ y.url }}" {{ y.id }}> {{ y.name }}
                     </a>
                     </li>
 
