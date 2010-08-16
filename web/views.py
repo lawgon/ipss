@@ -262,6 +262,8 @@ class Edituserform(forms.Form):
     pass2 = forms.CharField(max_length=50,widget=forms.PasswordInput,
                             label=_("Enter New Password Again"),
                             required=False)
+                            
+    agree = forms.BooleanField(label=_("I agree with the aims of the society"),initial=False)
 
 
     def clean_pass2(self):
