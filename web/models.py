@@ -122,7 +122,8 @@ class Subscription(models.Model):
     amount = models.DecimalField(_("Amount"),max_digits=10,decimal_places=2)
     description = models.CharField(_("Description"),max_length=2,choices=DESCRIPTIONS)
     dategenerated = models.DateField(_("Date generated"))
-    datepaid = models.DateField(_("Date paid"),blank=True,null=True)    
+    datepaid = models.DateField(_("Date paid"),blank=True,null=True,
+                    help_text=_("yyyy-mm-dd"))    
     paymentdetails = models.TextField(_("Payment details"),blank=True,null=True)
     paid = models.BooleanField(_("Paid"),default = False)
     
