@@ -66,9 +66,11 @@ class Member(models.Model):
     username = models.ForeignKey(User, related_name = "member_user_name",
                                    unique = True,verbose_name = _("User Name"))
     address = models.TextField(_("Address"))
-    city = models.ForeignKey(City,verbose_name= _("Town or city"))
+    city = models.ForeignKey(City,verbose_name= _("Town or city"),
+                            help_text=_("If your city is not mentioned add it from the menu on the left"))
     occupation = models.ForeignKey(Occupation,
-                                   related_name = "occupation", verbose_name = _("Occupation"))
+                                   related_name = "occupation", verbose_name = _("Occupation"),
+                                   help_text=_("If your occupation is not mentioned add it from the menu on the left"))
     joindate = models.DateTimeField(_("Date of registration"),default=datetime.now,
                                     editable=False)
     membershiptype = models.CharField(_("Membershiptype"),max_length=1,choices=MEMBERSHIPTYPES)

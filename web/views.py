@@ -246,8 +246,10 @@ class Edituserform(forms.Form):
     
     city = forms.ChoiceField(
                                label=_("City"),
+                               help_text=_("If your city is not mentioned add it from the menu on the left"),
                                choices=())
     occupation = forms.ChoiceField(label=_("Occupation"),
+                                    help_text=_("If your occupation is not mentioned add it from the menu on the left"),
                                    choices=()) 
     membershiptype = forms.ChoiceField(label=_("Type of membership"),
                                    choices=MEMBERSHIPTYPES) 
@@ -255,7 +257,7 @@ class Edituserform(forms.Form):
                                label=_("Company or institute name"),help_text=_("Only for institutional memberships"),
                                required=False)
     reason = forms.CharField(max_length=200,
-                               label=_("Remarks"),widget=forms.Textarea)
+                               label=_("Reason for wanting to join"),widget=forms.Textarea)
     pass1 = forms.CharField(max_length=50,widget=forms.PasswordInput,
                             label=_("Enter New Password"),
                             required=False)
