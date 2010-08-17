@@ -545,11 +545,11 @@ def paymenthandler(sender,**kwargs):
         """
     frm = settings.DEFAULT_FROM_EMAIL
     if not kwargs['created']:
-        if not kwargs['instance'].paid and kwargs['instance'].paymentdetails:
+        if (not kwargs['instance'].paid) and (kwargs['instance'].paymentdetails):
             subj = _("payment made") 
             url = "http://%s/admin/web/subscription/%d/" %(Site.objects.get_current().domain,
                                                             int(kwargs['instance'].id))
-            msg = _("Please verify the payment and mark as paid")
+            msg = _("Please verify the payment and mark as paid\n\n%s") % (url)
             com = Group.objects.get(name="treasurer")
             for cm in com.user_set.all():
                 to = [cm.email]
