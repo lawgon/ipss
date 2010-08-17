@@ -510,6 +510,7 @@ def applicationhandler(sender,**kwargs):
         a subscription is created.
         """
     frm = settings.DEFAULT_FROM_EMAIL
+    print kwargs
     if kwargs['created']:
         subj = _("New membership application") 
         url = "http://%s/pendingmembers/" %(Site.objects.get_current().domain)
@@ -556,6 +557,6 @@ def paymenthandler(sender,**kwargs):
     
         
    
-post_save.connect(applicationhandler, sender=Subscription)
+post_save.connect(paymenthandler, sender=Subscription)
     
                                                               
