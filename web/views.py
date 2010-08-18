@@ -49,7 +49,8 @@ Dear %(username)s,\n\n\
 \
 Congratulations, your application has been accepted. please visit the following url:\n\n\
 %(url)s\n\n\
-and pay your subscription\n\n\
+and pay your subscription through netbanking or otherwise as described on the righthand column of the site\
+ and enter payment details in the account status page\n\n\
 regards\n\
 IPSS Team\
 ") %{'username': username,'url': url}
@@ -530,19 +531,21 @@ def applicationhandler(sender,**kwargs):
             except:
                 generateinvoice(kwargs['instance'])
             url = "http://%s/status/" %(Site.objects.get_current().domain)
-            msg = admit(kwargs['instance'].username,url)
+            print kwargs['instance']
+            msg = admit(kwargs['instance'],url)
             subj = _("IPSS: Acceptance of your application")
             to = [kwargs['instance'].username.email]
             send_mail(subj,msg,frm,to)
         
    
-post_save.connect(applicationhandler, sender=Member)
+post_save.connect(applicationhandler, sender=Member,dispatch_uid="member")
 
 def paymenthandler(sender,**kwargs):
     """
         if created then mail goes to committee, if admitted then
         a subscription is created.
         """
+    print kwargs
     frm = settings.DEFAULT_FROM_EMAIL
     if not kwargs['created']:
         if (not kwargs['instance'].paid) and (kwargs['instance'].paymentdetails):
@@ -559,6 +562,6 @@ def paymenthandler(sender,**kwargs):
     
         
    
-post_save.connect(paymenthandler, sender=Subscription)
+post_save.connect(paymenthandler, sender=Subscription, dispatch_uid="subscription")
     
                                                               

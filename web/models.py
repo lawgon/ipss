@@ -4,7 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.db.models.signals import post_save
 
 # Create your models here.
 
