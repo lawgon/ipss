@@ -545,7 +545,6 @@ def paymenthandler(sender,**kwargs):
         if created then mail goes to committee, if admitted then
         a subscription is created.
         """
-    print kwargs
     frm = settings.DEFAULT_FROM_EMAIL
     if not kwargs['created']:
         if (not kwargs['instance'].paid) and (kwargs['instance'].paymentdetails):
