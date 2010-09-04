@@ -2,7 +2,7 @@ from django.contrib import admin
 from ipss.web.models import *
 
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ['username','admitted']
+    list_display = ['member_user_name','admitted']
 
 admin.site.register(Member,MemberAdmin)
 admin.site.register(Occupation)
