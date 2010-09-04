@@ -112,6 +112,11 @@ class Member(models.Model):
             return self.companyname
         else:
             return User.objects.get(username=self.username.username).get_full_name()
+    def fullname(self):
+        if self.membershiptype in ['C','A']:
+            return self.companyname
+        else:
+            return User.objects.get(username=self.username.username).get_full_name()
 
     def get_absolute_url(self):
         return u"/memberfull/%d/" %(self.id)
