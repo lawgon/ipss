@@ -508,11 +508,11 @@ def generateinvoice(mem):
     
 def news(request):
     news = Blog.objects.all()
-    return render_to_response('web/news.html',request_context=RequestContext(request,{'news':news}))
+    return render_to_response('web/news.html',context_instance=RequestContext(request,{'news':news}))
     
 def newsfull(request,id):
     nw = Blog.objects.get(pk=id)
-    return render_to_response('web/newsfull.html',request_context=RequestContext(request,{'nw':nw}))
+    return render_to_response('web/newsfull.html',context_instance=RequestContext(request,{'nw':nw}))
     
         
         
