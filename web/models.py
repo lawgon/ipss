@@ -50,6 +50,11 @@ class Occupation(models.Model):
 
     def __unicode__(self):
         return self.name
+class Category(models.Model):   
+    name = models.CharField(_("Category"),max_length=100,unique=True)
+
+    def __unicode__(self):
+        return self.name
         
 class City(models.Model):
     """Names of cities to be used"""
@@ -147,5 +152,17 @@ class Vote(models.Model):
         unique_together=('voter','candidate')
     def __unicode__(self):
         return u"%s %s %s" %(self.voter,self.candidate,self.votecast)
+        
+class Blog(models.Model):
+    reporter = models.ForeignKey(Member,verbose_name=_("Member"))
+    category = models.ForeignKey(Category,verbose_name=_("Category"))
+    title = models.CharField(_("Title"),max_length=100)
+    pubdate = models.DateField(_("Date of publication"),default = datetime.today,editable=False)
+    matter = models.TextField(_("Matter"))
+    class Meta:
+        unique_together=('category','title')
+        ordering =('-pubdate',)
+    def __unicode__(self):
+        return "%s by %s in %s" %(self.title,self.reporter,self.category)
         
 

@@ -74,6 +74,7 @@ IPSS Team\
 menu_items = [
 
                 {"name":_("Home"),"url":"home/","id":""},
+                {"name":_("News"),"url":"news/","id":""},
                 
                 
               ]
@@ -504,6 +505,14 @@ def generateinvoice(mem):
                                         description=dscr,
                                         dategenerated=datetime.today())
     return 1
+    
+def news(request):
+    news = Blog.objects.all()
+    return render_to_response('web/news.html',request_context=RequestContext(request,{'news':news}))
+    
+def newsfull(request,id):
+    nw = Blog.objects.get(pk=id)
+    return render_to_response('web/newsfull.html',request_context=RequestContext(request,{'nw':nw})
     
         
         
