@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+    <h2>{% trans "News and events" %}</h2>
+
+    {% if news %}
+        <ul>
+            {% for p in news %}
+                <li><a href="{% url newsfull id=p.id %}">{{p.title}} </a></li>               
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% trans "No news" %}</p>
+    {% endif %}
+{% endblock %}

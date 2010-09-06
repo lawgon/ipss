@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block centercontent %}
+<p><a href="{% url news %}">{% trans "Back to index"%}</a></p>
+{% if nw %}
+<h2>{{nw.title}}</h2>
+<h3>{% trans "by"%} {{nw.reporter}}</h3>
+<h3>{% trans "Category: "} {{nw.category}}</h3>
+<h3>{% trans "Dated: "} {{nw.pubdate}}</h3>
+{% autoescape off %}
+<p>{{nw.matter}}</p>
+        
+{% endautoescape %}        
+        {% endif %}
+{% else %}
+{% trans "Nothing available" %}
+<p><a href="{% url news %}">{% trans "Back to index"%}</a></p>
+{% endif %}
+
+{% endblock %}
