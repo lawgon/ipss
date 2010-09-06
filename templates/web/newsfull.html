@@ -5,8 +5,8 @@
 {% if nw %}
 <h2>{{nw.title}}</h2>
 <h3>{% trans "by"%} {{nw.reporter}}</h3>
-<h3>{% trans "Category: "} {{nw.category}}</h3>
-<h3>{% trans "Dated: "} {{nw.pubdate}}</h3>
+<h3>{% trans "Category: "%} {{nw.category}}</h3>
+<h3>{% trans "Dated: "%} {{nw.pubdate}}</h3>
 {% autoescape off %}
 <p>{{nw.matter}}</p>
         
