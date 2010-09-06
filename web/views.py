@@ -512,7 +512,7 @@ def news(request):
     
 def newsfull(request,id):
     nw = Blog.objects.get(pk=id)
-    return render_to_response('web/newsfull.html',request_context=RequestContext(request,{'nw':nw})
+    return render_to_response('web/newsfull.html',request_context=RequestContext(request,{'nw':nw}))
     
         
         
