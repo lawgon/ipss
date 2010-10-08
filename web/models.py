@@ -123,12 +123,12 @@ class Member(models.Model):
         else:
             return User.objects.get(username=self.username.username).get_full_name()
     def pending(self):
-        if not admitted:
-            return (datetime.now-joindate).days
+        if not self.admitted:
+            return (datetime.now-self.joindate).days
     def paid(self):
         pd = True
         for sub in self.subscription_set.all():
-            if not paid:
+            if not sub.paid:
                 pd = False
         return pd
         
