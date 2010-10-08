@@ -130,6 +130,8 @@ class Member(models.Model):
         for sub in self.subscription_set.all():
             if self.admitted and not sub.paid:
                 pd = False
+        if not self.admitted:
+            pd = False
         return pd
         
 
