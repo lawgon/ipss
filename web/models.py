@@ -128,7 +128,7 @@ class Member(models.Model):
     def paid(self):
         pd = True
         for sub in self.subscription_set.all():
-            if admitted and not sub.paid:
+            if self.admitted and not sub.paid:
                 pd = False
         return pd
         
