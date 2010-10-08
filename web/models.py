@@ -124,7 +124,7 @@ class Member(models.Model):
             return User.objects.get(username=self.username.username).get_full_name()
     def pending(self):
         if not self.admitted:
-            return (datetime.now-self.joindate).days
+            return (datetime.now()-self.joindate).days
     def paid(self):
         pd = True
         for sub in self.subscription_set.all():
