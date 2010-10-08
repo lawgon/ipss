@@ -125,6 +125,13 @@ class Member(models.Model):
     def pending(self):
         if not admitted:
             return (datetime.now-joindate).days
+    def paid(self):
+        pd = True
+        for sub in self.subscription_set.all():
+            if not paid:
+                pd = False
+        return pd
+        
 
     def get_absolute_url(self):
         return u"/memberfull/%d/" %(self.id)
