@@ -11,6 +11,7 @@
                 <th>{% trans "Accept" %}</th>
                 <th>{% trans "Reject" %}</th>
                 <th>{% trans "Neutral" %}</th>
+                <th>{% trans "Days pending" %}</th>
             </tr>
             {% for p in pms %}
             <tr>
@@ -18,6 +19,7 @@
                 <td>{{p.accept}} </td>
                 <td>{{p.reject}} </td>
                 <td>{{p.neutral}} </td>
+                <td>{{p.pending}} </td>
             </tr>
             {% endfor %}
         </table>

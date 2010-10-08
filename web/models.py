@@ -122,6 +122,9 @@ class Member(models.Model):
             return self.companyname
         else:
             return User.objects.get(username=self.username.username).get_full_name()
+    def pending(self):
+        if not admitted:
+            return (datetime.now-joindate).days
 
     def get_absolute_url(self):
         return u"/memberfull/%d/" %(self.id)
@@ -138,6 +141,7 @@ class Subscription(models.Model):
     
     class Meta:
         unique_together = ('member','description')
+    
     def __unicode__(self):
         return u"%s %s %s" %(self.member,self.description,self.paid)
         
