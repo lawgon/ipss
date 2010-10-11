@@ -6,6 +6,7 @@
     {% if pms %}
     <p>{% trans "Click on a name to see details and vote" %}</p>
         <table>
+        
             <tr>
                 <th>{% trans "Name" %}</th>
                 <th>{% trans "Accept" %}</th>
@@ -13,6 +14,7 @@
                 <th>{% trans "Neutral" %}</th>
                 <th>{% trans "Days pending" %}</th>
             </tr>
+       
             {% for p in pms %}
             <tr>
                 <td><a href="{% url vote id=p.id %}">{{p}}</a> </td>
@@ -22,6 +24,7 @@
                 <td>{{p.pending}} </td>
             </tr>
             {% endfor %}
+        
         </table>
     {% else %}
         <p>{% trans "No pending members" %}</p>

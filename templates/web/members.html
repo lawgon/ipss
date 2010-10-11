@@ -1,16 +1,29 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% block head %}
+<script type="text/javascript" src="/sitemedia/js/jquery.js"></script>
+<script type="text/javascript" src="/sitemedia/js/jquery.tablesorter.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+     $("#tabl").tablesorter({widgets:['zebra']});
+      });
+            
+    </script>
+{% endblock %}
 {% block centercontent %}
     <h2>{% trans "Members" %}</h2>
 
     {% if mems %}
-        <table>
+        <table id="tabl">
+        <thead>
             <tr>
                 <th>{% trans "Name" %}</th>
                 <th>{% trans "Membership type" %}</th>
                 <th>{% trans "Occupation" %}</th>
                 <th>{% trans "City" %}</th>
             </tr>
+        </thead>
+        <tbody>
             {% for p in mems %}
             <tr>
                 <td>{{p}}</a> </td>
@@ -19,6 +32,7 @@
                 <td>{{p.city}} </td>
             </tr>
             {% endfor %}
+        </tbody>
         </table>
     {% else %}
         <p>{% trans "No members" %}</p>
