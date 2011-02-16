@@ -24,16 +24,26 @@
             </tr>
         </thead>
         <tbody>
+			{% autoescape off %}
             {% for p in mems %}
             <tr>
-                <td>{{p}}</a> </td>
+                <td>
+				{% if p.paid %}
+				<font color = "black">
+				{% else %}
+				<font color = "red">
+				{% endif %}
+				{{p}}</font></a> </td>
                 <td>{{p.memtypeshort}} </td>
                 <td>{{p.occupation}} </td>
                 <td>{{p.city}} </td>
             </tr>
+            </font>
             {% endfor %}
+            {% endautoescape %}
         </tbody>
         </table>
+        <font color ="red">*</font> Subscription Arrears 
     {% else %}
         <p>{% trans "No members" %}</p>
     {% endif %}
