@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
+    url(r'^add/(?P<model_name>\w+)/?$', 'tekextensions.views.add_new_model'),
     url(r'^login/$','django.contrib.auth.views.login',   name='login'),
     url(r'^logout/$','django.contrib.auth.views.logout', name='logout'),
     (r'', include('web.urls')),

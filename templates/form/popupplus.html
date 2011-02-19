@@ -1,0 +1,15 @@
+<html>
+<head>
+<title>Add {{ field }}</title>
+<script type="text/javascript" src="/media/js/admin/RelatedObjectLookups.js"></script>
+</head>
+<body>
+    <h2>{% trans "Add Paragraph" %}</h2>
+    <form  method="POST" action=".">{% csrf_token %}
+    <table>
+        {{ form }}
+        </table>
+        <input type="submit" name="Register" value='{% trans "Submit" %}'> | <a href="javascript:window.close()">Cancel</a></p>
+    </form>
+</body>
+</html>
