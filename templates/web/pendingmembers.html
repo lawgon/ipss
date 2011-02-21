@@ -17,7 +17,7 @@
        
             {% for p in pms %}
             <tr>
-                <td><a href="{% url vote id=p.id %}">{{p}}</a> </td>
+                <td>{{p}}</td>
                 <td>{{p.acceptors}} <b>({{p.accept}})</b> </td>
                 <td>{{p.rejectors}} <b>({{p.reject}}) </b></td>
                 <td>{{p.neutors}}   <b>({{p.neutral}})</td>
