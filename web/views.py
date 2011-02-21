@@ -18,6 +18,7 @@ from django.db.models import get_model
 from django.forms import ModelForm
 from django.contrib.admin import widgets
 from django.db.models.signals import post_save
+from tekextensions.widgets import (SelectWithPopUp, MultipleSelectWithPopUp, FilteredMultipleSelectWithPopUp)
 
 def isingroup(user,grp):
     """
@@ -231,21 +232,21 @@ class Edituserform(forms.Form):
     def __init__(self, *args, **kwargs):
             super(Edituserform, self).__init__(*args, **kwargs)
             # Generate choices
+            self.fields['city'].widget = SelectWithPopUp(model='City')
+            self.fields['occupation'].widget = SelectWithPopUp(model='Occupation')
             self.fields['city'].choices = [(chld.id,
             chld.name) for chld in City.objects.all()]
             self.fields['occupation'].choices = [(chld.id,
             chld.name) for chld in Occupation.objects.all()]
-            
 
     first_name = forms.CharField(max_length=30,
                                  label=_("First Name or Initials"),
-                                 required=False)
+                                required=False)
     last_name = forms.CharField(max_length=30,
                                 label=_("Last Name"),
                                 required=True)
     address = forms.CharField(max_length=200,
                                label=_("Address"),widget=forms.Textarea)
-    
     city = forms.ChoiceField(
                                label=_("City"),
                                help_text=_("If your city is not mentioned add it from the menu on the left"),
@@ -370,15 +371,15 @@ def status(request):
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")                        
 def members(request):
     mems = Member.objects.filter(admitted=True)
+    sub = Subscription.objects.filter(paid=False)
     return render_to_response('web/members.html',
                         context_instance=RequestContext(request,
-                                {'mems':mems}))
+                                {'mems':mems, 'sub':sub}))
     
 
 class Cityaddform(ModelForm):
-    
-    class Meta:
-        model = City
+	class Meta:
+		model = City
         
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 def addcity(request):
@@ -399,9 +400,8 @@ def addcity(request):
                           }))
                           
 class Occupationaddform(ModelForm):
-    
-    class Meta:
-        model = Occupation
+	class Meta:
+		model = Occupation
         
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 def addoccupation(request):
@@ -453,9 +453,9 @@ def addsubscription(request,id):
 @user_passes_test(lambda u: isingroup(u,'committee') == True,login_url="/login/")                                                                
 def pendingmembers(request):
     pms = Member.objects.filter(admitted=False)
-    
+    vote = Vote.objects.all()
     return render_to_response("web/pendingmembers.html",
-                              context_instance=RequestContext(request,{'pms':pms,
+                              context_instance=RequestContext(request,{'pms':pms,'vote':vote
                                                                 }))
                                                                 
 class Voteaddform(ModelForm):

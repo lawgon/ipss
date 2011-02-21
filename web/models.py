@@ -97,6 +97,14 @@ class Member(models.Model):
             if vote.votecast=='A':
                 tot +=1
         return tot
+    def acceptors(self):
+        votes = self.candidate.all()
+        acc=[]
+        for vote in votes:
+            if vote.votecast=='A':
+                 acc.append(vote.voter)
+        return acc
+        		
     def reject(self):
         votes = self.candidate.all()
         tot = 0
@@ -104,6 +112,14 @@ class Member(models.Model):
             if vote.votecast=='R':
                 tot +=1
         return tot
+    def rejectors(self):
+        votes = self.candidate.all()
+        rej = []
+        for vote in votes:
+            if vote.votecast=='R':
+                rej.append(vote.voter)
+        return rej
+        
     def neutral(self):
         votes = self.candidate.all()
         tot = 0
@@ -112,6 +128,13 @@ class Member(models.Model):
                 tot +=1
         return tot
 
+    def neutors(self):
+        votes = self.candidate.all()
+        neu = []
+        for vote in votes:
+            if vote.votecast=='N':
+                neu.append(vote.voter)
+        return neu
     def __unicode__(self):
         if self.membershiptype in ['C','A']:
             return self.companyname

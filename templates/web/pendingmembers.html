@@ -18,9 +18,9 @@
             {% for p in pms %}
             <tr>
                 <td><a href="{% url vote id=p.id %}">{{p}}</a> </td>
-                <td>{{p.accept}} </td>
-                <td>{{p.reject}} </td>
-                <td>{{p.neutral}} </td>
+                <td>{{p.acceptors}} <b>({{p.accept}})</b> </td>
+                <td>{{p.rejectors}} <b>({{p.reject}}) </b></td>
+                <td>{{p.neutors}}   <b>({{p.neutral}})</td>
                 <td>{{p.pending}} </td>
             </tr>
             {% endfor %}
