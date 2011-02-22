@@ -18,9 +18,19 @@
             {% for p in pms %}
             <tr>
                 <td>{{p}}</td>
-                <td>{{p.acceptors}} <b>({{p.accept}})</b> </td>
-                <td>{{p.rejectors}} <b>({{p.reject}}) </b></td>
-                <td>{{p.neutors}}   <b>({{p.neutral}})</td>
+                <td>{% for j in p.acceptors %}
+		<br>{{j.fullname}}
+		{% endfor %} 
+		<b>({{p.accept}})</b> </td>
+
+                <td>
+		{% for j in p.rejectors %}
+			<br>{{j.fullname}}
+		{% endfor %} 
+
+                <td>{% for j in p.neutors %}
+			<br>{{j.fullname}}
+		{% endfor %} <b>({{p.neutral}})</b></td>
                 <td>{{p.pending}} </td>
             </tr>
             {% endfor %}

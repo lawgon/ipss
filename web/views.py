@@ -57,6 +57,18 @@ IPSS Team\
 ") %{'username': username,'url': url}
     return msg
     
+def rejectedmsg(username):
+	"""
+	Email body to be sent to user
+	"""
+	msg = _("Dear %(username)s, \n\n\
+Your application for membership of Indian Python Software Society has not been able to get the minimum number of votes and has hence lapsed. It is possible that you have not given enough details about yourself and hence committee members have not been convinced. You are free to submit another application with more details.\n\
+Regards,\n\
+Indian Python Software Society\
+") %{ 'username': username }
+                                                            
+	return msg
+
 def comnotmsg(username,url):
     """
     Email body to be sent to user.
@@ -521,9 +533,26 @@ def applicationhandler(sender,**kwargs):
         if created then mail goes to committee, if admitted then
         a subscription is created.
         """
+    print "Hellow world"
     frm = settings.DEFAULT_FROM_EMAIL
-    print kwargs
+    mems = Member.objects.filter(admitted=False)
+    subj = _("Sorry!!! Your Application got rejected") 	
+    for cm in mems:
+		tot= cm.accept()-cm.reject()
+		print "Total Votes:",tot
+		a=cm.pending()
+		print "Pending for",a
+
+		if (tot<3 and a>30):
+				msg = rejectedmsg(cm.username)
+				to = [cm.email()]
+				print to, msg
+				send_mail(subj,msg,frm,to)
+				print "Caution: DELETED"
+				cm.delete()
+			
     if kwargs['created']:
+        print "Hellow world2"
         subj = _("New membership application") 
         url = "http://%s/pendingmembers/" %(Site.objects.get_current().domain)
         
@@ -535,6 +564,7 @@ def applicationhandler(sender,**kwargs):
             
     else:
         if kwargs['instance'].admitted:
+            print "Hellow world3"
             try:
                 Subscription.objects.get(member=kwargs['instance'],description='1')
             except:
@@ -572,4 +602,6 @@ def paymenthandler(sender,**kwargs):
    
 post_save.connect(paymenthandler, sender=Subscription, dispatch_uid="subscription")
     
-                                                              
+
+
+			
