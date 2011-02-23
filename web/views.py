@@ -94,8 +94,6 @@ menu_items = [
 logged_menu_items = [
 
                 {"name":_("Members"),"url":"members/","id":""},
-                {"name":_("Add city"),"url":"addcity/","id":""},
-                {"name":_("Add occupation"),"url":"addoccupation/","id":""},
                 {"name":_("Account Status"),"url":"status/","id":""},
                 
               ]
@@ -261,10 +259,8 @@ class Edituserform(forms.Form):
                                label=_("Address"),widget=forms.Textarea)
     city = forms.ChoiceField(
                                label=_("City"),
-                               help_text=_("If your city is not mentioned add it from the menu on the left"),
                                choices=())
     occupation = forms.ChoiceField(label=_("Occupation"),
-                                    help_text=_("If your occupation is not mentioned add it from the menu on the left"),
                                    choices=()) 
     membershiptype = forms.ChoiceField(label=_("Type of membership"),
                                    choices=MEMBERSHIPTYPES) 
