@@ -529,7 +529,6 @@ def applicationhandler(sender,**kwargs):
         if created then mail goes to committee, if admitted then
         a subscription is created.
         """
-    print "Hellow world"
     frm = settings.DEFAULT_FROM_EMAIL
 
     mems = Member.objects.filter(admitted=False)
@@ -549,7 +548,6 @@ def applicationhandler(sender,**kwargs):
                 cm.delete()
             
     if kwargs['created']:
-        print "Hellow world2"
         subj = _("New membership application") 
         url = "http://%s/pendingmembers/" %(Site.objects.get_current().domain)
         
@@ -561,7 +559,6 @@ def applicationhandler(sender,**kwargs):
             
     else:
         if kwargs['instance'].admitted:
-            print "Hellow world3"
             try:
                 Subscription.objects.get(member=kwargs['instance'],description='1')
             except:
