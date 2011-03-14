@@ -1,0 +1,9 @@
+[
+  {
+    "model": "web.city",
+    "pk": 1,
+    "fields": {
+      "name": "chennai"      
+    }
+  }
+ ]

@@ -378,8 +378,8 @@ def members(request):
     
 
 class Cityaddform(ModelForm):
-	class Meta:
-		model = City
+    class Meta:
+        model = City
         
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 def addcity(request):
@@ -400,8 +400,8 @@ def addcity(request):
                           }))
                           
 class Occupationaddform(ModelForm):
-	class Meta:
-		model = Occupation
+    class Meta:
+        model = Occupation
         
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 def addoccupation(request):
@@ -522,7 +522,6 @@ def applicationhandler(sender,**kwargs):
         a subscription is created.
         """
     frm = settings.DEFAULT_FROM_EMAIL
-    print kwargs
     if kwargs['created']:
         subj = _("New membership application") 
         url = "http://%s/pendingmembers/" %(Site.objects.get_current().domain)
@@ -571,5 +570,10 @@ def paymenthandler(sender,**kwargs):
         
    
 post_save.connect(paymenthandler, sender=Subscription, dispatch_uid="subscription")
+
+
+
+    
+
     
                                                               
