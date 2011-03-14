@@ -83,7 +83,9 @@ class Member(models.Model):
     reason = models.TextField(_("Reason for joining"))
     admitted = models.BooleanField(_("Admitted"),default=False)
     admitdate = models.DateTimeField(_("Date of admission"),blank=True,null=True)
-    
+    def email(self):
+		return self.username.email
+		
     def memtypeshort(self):
         return self.get_membershiptype_display().split()[0]
     
@@ -114,7 +116,7 @@ class Member(models.Model):
         return tot
     def rejectors(self):
         votes = self.candidate.all()
-        rej = []
+        rej = [""]
         for vote in votes:
             if vote.votecast=='R':
                 rej.append(vote.voter)
