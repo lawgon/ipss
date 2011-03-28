@@ -68,7 +68,20 @@ Indian Python Software Society\
 ") %{ 'username': username }
                                                             
     return msg
-
+    
+def arrearmsg(username):
+    """
+    Email body to be sent to user
+    """
+    msg = _("Dear %(username)s, \n\n\
+Your subscription to Indian Python Software Society was expired. Please do clear your arrears to continue as a member in the Organiztion.\n\
+Regards,\n\
+Indian Python Software Society\
+") %{ 'username': username }
+                                                            
+    return msg
+    
+    
 def comnotmsg(username,url):
     """
     Email body to be sent to user.
@@ -526,9 +539,10 @@ def newsfull(request,id):
         
 def applicationhandler(sender,**kwargs):
     """
-        if created then mail goes to committee, if admitted then
-        a subscription is created.
-        """
+            Application rejected due to:
+        1. Not enough votes
+        2. Not admitted within 30 days
+    """
     frm = settings.DEFAULT_FROM_EMAIL
 
     mems = Member.objects.filter(admitted=False)
@@ -597,10 +611,21 @@ def paymenthandler(sender,**kwargs):
 post_save.connect(paymenthandler, sender=Subscription, dispatch_uid="subscription")
 
 
+def arrearhandler(sender,**kwargs):
+    """
+If not paid subscription, users can be notified with this function
+    """
+    frm = settings.DEFAULT_FROM_EMAIL
 
-    
-
-    
+    mems = Member.objects.filter(paid=False)
+    subj = _("Your have got Subscription Arrears")  
+    for cm in mems:
+        msg = arrearmsg(cm.username)
+        to = [cm.email()]
+        print to, msg
+        send_mail(subj,msg,frm,to)    
+   
+post_save.connect(arrearhandler, sender=Subscription, dispatch_uid="subscription")
 
 
             
