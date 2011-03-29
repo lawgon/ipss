@@ -203,4 +203,15 @@ class Blog(models.Model):
     def __unicode__(self):
         return "%s by %s in %s" %(self.title,self.reporter,self.category)
         
-
+class Organization(models.Model):
+    orgname = models.CharField(_("Organization Name"),max_length=200)
+    regno = models.CharField(_("Registration Number"),max_length=50)
+    address = models.TextField(_("Address"))
+    website = models.URLField(_("Website"))
+    contactname = models.CharField(_("Contact Name"),max_length=150)
+    email = models.EmailField(_("Email"))
+    number = models.CharField(_("Contact Number"),max_length=14)
+    desc = models.TextField(_("Brief Description"))
+    def __unicode__(self):
+        return "%s " %(self.orgname)
+            

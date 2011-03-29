@@ -14,4 +14,4 @@ admin.site.register(Subscription)
 admin.site.register(Category)
 admin.site.register(Blog)
 admin.site.register(Vote)
-
+admin.site.register(Organization)
