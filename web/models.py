@@ -215,3 +215,15 @@ class Organization(models.Model):
     def __unicode__(self):
         return "%s " %(self.orgname)
             
+class Event(models.Model):
+    eventname = models.CharField(_("Event Name"),max_length=200)
+    organization = models.ForeignKey(Organization)
+    startdate = models.DateTimeField(_("Event start date"),default = datetime.now)
+    enddate = models.DateTimeField(_("End date"),blank=True)
+    venue = models.CharField(_("Venue"),max_length=300)
+    weblink = models.URLField(_("Event web link"), blank=False)
+    contact = models.EmailField(_("Contact Email"))   
+    shortdes = models.TextField(_("Short Description"),blank=True)
+    def __unicode__(self):
+        return "%s by %s at %s" %(self.eventname,self.reporter,self.category)
+        
