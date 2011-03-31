@@ -117,7 +117,7 @@ admin_menu_items = [
                 
               ]
 
-event_items = Event.objects.all()[:5]
+event_items = Event.objects.all()[5:]
 
 def index(request):
     """front page"""
