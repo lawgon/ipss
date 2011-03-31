@@ -18,4 +18,6 @@ urlpatterns = patterns('ipss.web.views',
     url(r'^regthank/(?P<id>\d+)/$', 'regthank', name='reg_thank'),
     url(r'^vote/(?P<id>\d+)/$', 'vote', name='vote'),
     url(r'^addsubscription/(?P<id>\d+)/$', 'addsubscription', name='addsubscription'),
+    url(r'^addevent/$', 'addevent', name='addevent'),
+    url(r'^addorganization/$', 'addorganization', name='addorganization'),
     )

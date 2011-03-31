@@ -471,6 +471,89 @@ def addsubscription(request,id):
                               context_instance=RequestContext(request,{'form':form
                                                                 }))
                                                                 
+class Eventform(ModelForm):
+    class Meta:
+        model = Event
+       
+                                                        
+class Organizationform(ModelForm):
+    class Meta:
+        model = Organization
+        exclude = 'author'
+                                                                
+@user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
+@transaction.commit_on_success
+def addevent(request,id=None):
+    """
+    Function to add/edit event.
+    """
+    
+    addedit = True
+    if not id:
+        id = None
+        instance = None
+    else:
+        instance = Event.objects.get(pk=id)
+        addedit = False
+        if instance.author_id != request.user.id:
+            return HttpResponseRedirect('/')
+
+    if request.POST:
+        form = Eventform(request.POST,request.FILES,instance=instance)
+        if form.is_valid():
+            fm = form.save(commit=False)
+            fm.author_id=request.user.id
+            fm.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = Eventform(instance=instance)
+
+
+    return render_to_response("web/addevent.html",
+                              context_instance=RequestContext(request,{'form':form,
+
+                                                                        'addedit':addedit,
+                                                                }))
+
+
+
+@user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
+@transaction.commit_on_success
+def addorganization(request,id=None):
+    """
+    Function to add/edit event.
+    """
+    
+    addedit = True
+    if not id:
+        id = None
+        instance = None
+    else:
+        instance = Event.objects.get(pk=id)
+        addedit = False
+        if instance.author_id != request.user.id:
+            return HttpResponseRedirect('/')
+
+    if request.POST:
+        form = Organizationform(request.POST,request.FILES,instance=instance)
+        if form.is_valid():
+            fm = form.save(commit=False)
+            fm.author_id=request.user.id
+            fm.save()
+            return HttpResponseRedirect('/eventfull/%s/' %(fm.id))
+    else:
+        form = Organizationform(instance=instance)
+
+
+    return render_to_response("web/addorganization.html",
+                              context_instance=RequestContext(request,{'form':form,
+
+                                                                        'addedit':addedit,
+                                                                }))
+
+
+
+                                                        
 @user_passes_test(lambda u: isingroup(u,'committee') == True,login_url="/login/")                                                                
 def pendingmembers(request):
     pms = Member.objects.filter(admitted=False)

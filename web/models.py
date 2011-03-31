@@ -204,8 +204,9 @@ class Blog(models.Model):
         return "%s by %s in %s" %(self.title,self.reporter,self.category)
         
 class Organization(models.Model):
+    author = models.ForeignKey(User,verbose_name=_("Author"))
     orgname = models.CharField(_("Organization Name"),max_length=200)
-    regno = models.CharField(_("Registration Number"),max_length=50)
+    regno = models.CharField(_("Registration Number"),max_length=50,blank=True)
     address = models.TextField(_("Address"))
     website = models.URLField(_("Website"))
     contactname = models.CharField(_("Contact Name"),max_length=150)
