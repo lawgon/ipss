@@ -48,6 +48,9 @@ class Tempreg(models.Model):
 class Occupation(models.Model):   
     name = models.CharField(_("Occupation"),max_length=100,unique=True)
 
+    class Meta:
+        verbose_name_plural = "Occupation"
+
     def __unicode__(self):
         return self.name
 class Category(models.Model):   
@@ -217,14 +220,15 @@ class Organization(models.Model):
         return "%s " %(self.orgname)
             
 class Event(models.Model):
+    author = models.ForeignKey(User,verbose_name=_("Author"))
     eventname = models.CharField(_("Event Name"),max_length=200)
     organization = models.ForeignKey(Organization)
-    startdate = models.DateTimeField(_("Event start date"),default = datetime.now)
-    enddate = models.DateTimeField(_("End date"),blank=True)
+    startdate = models.DateField(_("Event start date"),default = datetime.now)
+    enddate = models.DateField(_("End date"), blank=True, null=True)
     venue = models.CharField(_("Venue"),max_length=300)
     weblink = models.URLField(_("Event web link"), blank=False)
     contact = models.EmailField(_("Contact Email"))   
     shortdes = models.TextField(_("Short Description"),blank=True)
     def __unicode__(self):
-        return "%s by %s at %s" %(self.eventname,self.reporter,self.category)
+        return "%s by %s at %s" %(self.eventname,self.organization,self.venue)
         

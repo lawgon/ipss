@@ -22,4 +22,5 @@ urlpatterns = patterns('ipss.web.views',
     url(r'^addorganization/$', 'addorganization', name='addorganization'),    
     url(r'^addevent/(?P<id>\d+)/$', 'addevent', name='addevent'),
     url(r'^addorganization/(?P<id>\d+)/$', 'addorganization', name='addorganization'),
+    url(r'^viewevent/(?P<id>\d+)/$', 'viewevent', name='viewevent'),
     )

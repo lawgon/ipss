@@ -108,17 +108,21 @@ logged_menu_items = [
 
                 {"name":_("Members"),"url":"members/","id":""},
                 {"name":_("Account Status"),"url":"status/","id":""},
-                
+                {"name":_("Add Organization"),"url":"addorganization/","id":""},
+                {"name":_("Add Event"),"url":"addevent/","id":""},
               ]
 admin_menu_items = [
 
                 {"name":_("Pending Members"),"url":"pendingmembers/","id":""},
                 
               ]
-              
+
+event_items = Event.objects.all()[:5]
+
 def index(request):
     """front page"""
-    return render_to_response('web/index.html',context_instance=RequestContext(request,))
+    event = Event.objects.all()
+    return render_to_response('web/index.html',context_instance=RequestContext(request, {'event':event}))
 
 #____________________________________________________________
 #user registration stuff
@@ -474,7 +478,7 @@ def addsubscription(request,id):
 class Eventform(ModelForm):
     class Meta:
         model = Event
-       
+        exclude = 'author'       
                                                         
 class Organizationform(ModelForm):
     class Meta:
@@ -515,7 +519,14 @@ def addevent(request,id=None):
                                                                         'addedit':addedit,
                                                                 }))
 
+def viewevent(request,id):
+    eve = Event.objects.get(pk=id)
 
+    return render_to_response("web/viewevent.html",
+                              context_instance=RequestContext(request,
+                              {'eve':eve}
+                              ))
+        
 
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 @transaction.commit_on_success
@@ -529,7 +540,7 @@ def addorganization(request,id=None):
         id = None
         instance = None
     else:
-        instance = Event.objects.get(pk=id)
+        instance = Organization.objects.get(pk=id)
         addedit = False
         if instance.author_id != request.user.id:
             return HttpResponseRedirect('/')
@@ -712,6 +723,8 @@ If not paid subscription, users can be notified with this function
         send_mail(subj,msg,frm,to)    
    
 post_save.connect(arrearhandler, sender=Subscription, dispatch_uid="subscription")
+
+
 
 
             

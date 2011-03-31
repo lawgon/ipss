@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="/sitemedia/css/layout.css" type="text/css" media="screen, projection">
         <script src="{{ ADMIN_MEDIA_PREFIX }}js/admin/RelatedObjectLookups.js"></script>
     </script>
+
     {% block head %}
     {% endblock %}
     </head>
@@ -98,6 +99,15 @@
 
         {% block centercontent %}
         {% endblock %}
+<div class="box">
+<b>Latest Events</b>
+
+{% get_event %}
+{% for e in ev %}
+	<br><a href = "/viewevent/{{e.id}}">{{e.eventname}}</a> by {{e.organization}} at {{e.venue}}
+<br>
+{% endfor %}
+</div>
     </div>
     <div class="span-3 box last">
 

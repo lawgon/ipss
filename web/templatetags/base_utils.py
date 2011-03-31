@@ -2,7 +2,7 @@ from django.template import Library, Node, NodeList, resolve_variable
 from django.template import TemplateSyntaxError, VariableDoesNotExist
 from django.db.models import get_model
 from web.models import *
-from web.views import menu_items, logged_menu_items, admin_menu_items
+from web.views import menu_items, logged_menu_items, admin_menu_items, event_items
 import datetime
 
 #sample taken form ubernostrums blog
@@ -57,7 +57,19 @@ get_menu = register.tag(get_admin_menu)
 
 
 
+class EventNode(Node):
+    def __init__(self):
+        self.event_items = event_items
 
+    def render(self, context):
+        l = self.event_items
+
+        context['ev'] = l
+        return ''
+
+def get_event(parser, token):
+    return EventNode()
+get_event = register.tag(get_event)
 
 
 
