@@ -540,7 +540,7 @@ def addorganization(request,id=None):
             fm = form.save(commit=False)
             fm.author_id=request.user.id
             fm.save()
-            return HttpResponseRedirect('/eventfull/%s/' %(fm.id))
+            return HttpResponseRedirect('/')
     else:
         form = Organizationform(instance=instance)
 
@@ -553,6 +553,9 @@ def addorganization(request,id=None):
 
 
 
+                                                        
+                                                        
+                                                        
                                                         
 @user_passes_test(lambda u: isingroup(u,'committee') == True,login_url="/login/")                                                                
 def pendingmembers(request):

@@ -19,5 +19,7 @@ urlpatterns = patterns('ipss.web.views',
     url(r'^vote/(?P<id>\d+)/$', 'vote', name='vote'),
     url(r'^addsubscription/(?P<id>\d+)/$', 'addsubscription', name='addsubscription'),
     url(r'^addevent/$', 'addevent', name='addevent'),
-    url(r'^addorganization/$', 'addorganization', name='addorganization'),
+    url(r'^addorganization/$', 'addorganization', name='addorganization'),    
+    url(r'^addevent/(?P<id>\d+)/$', 'addevent', name='addevent'),
+    url(r'^addorganization/(?P<id>\d+)/$', 'addorganization', name='addorganization'),
     )
