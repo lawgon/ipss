@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head %}
+
+{% endblock %}
+{% block centercontent %}
+    <h2>
+        {% trans "Add a new Event: " %}
+
+         {{ title }}</h2>
+    {% if form.non_field_errors %}
+        {{form.non_field_errors}}
+        {% endif %}
+    <form enctype="multipart/form-data" method="POST" action=".">{% csrf_token %}
+        <table>
+            {% for field in form %}
+    <dt>{{ field.label_tag }}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.errors %} {{ field.errors }} {% endif %}
+    {% endfor %}
+        </table>
+        <input type="submit" name="save" value="{% trans "Save" %}" />
+        
+        <input type="submit" name="cancel" value="{% trans "Cancel" %}" />
+    </form>
+{% endblock %}
