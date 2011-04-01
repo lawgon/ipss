@@ -105,7 +105,8 @@ menu_items = [
                 
               ]
 logged_menu_items = [
-
+                {"name":_("Events"),"url":"eventlist/","id":""},
+                {"name":_("Organization"),"url":"orglist/","id":""},                
                 {"name":_("Members"),"url":"members/","id":""},
                 {"name":_("Account Status"),"url":"status/","id":""},
                 {"name":_("Add Organization"),"url":"addorganization/","id":""},
@@ -117,7 +118,7 @@ admin_menu_items = [
                 
               ]
 
-event_items = Event.objects.all()[5:]
+event_items = Event.objects.all()[:5]
 
 def index(request):
     """front page"""
@@ -526,8 +527,33 @@ def viewevent(request,id):
                               context_instance=RequestContext(request,
                               {'eve':eve}
                               ))
-        
+                              
+def vieworganization(request,id):
+    org = Organization.objects.get(pk=id)
 
+    return render_to_response("web/vieworganization.html",
+                              context_instance=RequestContext(request,
+                              {'org':org}
+                              ))
+                              
+@user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
+@transaction.commit_on_success        
+def eventlist(request):
+    eve = Event.objects.all()
+    return render_to_response("web/eventlist.html",
+                              context_instance=RequestContext(request,
+                              {'eve':eve}
+                              ))
+                              
+@user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
+@transaction.commit_on_success 
+def orglist(request):
+    org = Organization.objects.all()
+    return render_to_response("web/orglist.html",
+                              context_instance=RequestContext(request,
+                              {'org':org}
+                              ))
+        
 @user_passes_test(lambda u: u.is_anonymous()==False ,login_url="/login/")
 @transaction.commit_on_success
 def addorganization(request,id=None):

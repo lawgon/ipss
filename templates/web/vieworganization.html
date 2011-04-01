@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head %}
+
+{% endblock %}
+{% block centercontent %}
+{% autoescape off %}
+
+{% endautoescape %}
+<h5>
+<p style="margin:60px; font-size:big; font:ubuntu">
+
+Organization Name &nbsp       : {{org.orgname}}<br>
+Address   : {{org.address}}<br>
+Contact Name &nbsp&nbsp&nbsp&nbsp&nbsp     : {{org.contactname}}<br>
+Website       &nbsp &nbsp&nbsp&nbsp     :<a href = "{{org.website}}">{{org.website}}</a><br>
+Contact e-mail	&nbsp    :<a href="mailto:{{org.contact}}"> {{org.contact}}</a><br>
+Description	&nbsp&nbsp&nbsp    : {{org.desc}}<br>
+</p></h5>
+            {% if request.user.username %}
+<p align="right"><a href = "/addorganization/{{org.id}}">edit</a></p>
+{%endif%}
+<p align="right"><a href = "/">home</a></p>
+
+{% endblock %}

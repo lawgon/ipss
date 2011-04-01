@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head %}
+
+{% endblock %}
+{% block centercontent %}
+   <h2>
+        {% trans "Events " %}
+</h2>
+
+{% for e in eve %}
+	<br><a href = "/viewevent/{{e.id}}">{{e.eventname}}</a> by {{e.organization}} at {{e.venue}}
+<br>
+{% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head %}
+
+{% endblock %}
+{% block centercontent %}
+{% autoescape off %}
+
+{% endautoescape %}
+<h5>
+<p style="margin:60px; font-size:big; font:ubuntu">
+
+Event Name &nbsp       : {{eve.eventname}}<br>
+Start Date &nbsp &nbsp&nbsp        : {{eve.startdate}}<br>
+End Date   &nbsp &nbsp&nbsp&nbsp        : {{eve.enddate}}<br>
+Host Organization   : {{eve.organization}}<br>
+Venue        &nbsp&nbsp&nbsp&nbsp&nbsp     : {{eve.venue}}<br>
+Website       &nbsp &nbsp&nbsp&nbsp     :<a href = "{{eve.weblink}}">{{eve.weblink}}</a><br>
+Contact e-mail	&nbsp    :<a href="mailto:{{eve.contact}}"> {{eve.contact}}</a><br>
+Description	&nbsp&nbsp&nbsp    : {{eve.shortdes}}<br>
+</p></h5>
+            {% if request.user.username %}
+<p align="right"><a href = "/addevent/{{eve.id}}">edit</a></p>
+{%endif%}
+<p align="right"><a href = "/">home</a></p>
+
+{% endblock %}

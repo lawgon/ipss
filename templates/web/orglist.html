@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block head %}
+
+{% endblock %}
+{% block centercontent %}
+   <h2>
+        {% trans "Organizations " %}
+</h2>
+
+{% for e in org %}
+	<br><a href = "/vieworganization/{{e.id}}">{{e.orgname}}</a>
+<br>
+{% endfor %}
+
+
+{% endblock %}

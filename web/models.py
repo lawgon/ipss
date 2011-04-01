@@ -209,26 +209,25 @@ class Blog(models.Model):
 class Organization(models.Model):
     author = models.ForeignKey(User,verbose_name=_("Author"))
     orgname = models.CharField(_("Organization Name"),max_length=200)
-    regno = models.CharField(_("Registration Number"),max_length=50,blank=True)
-    address = models.TextField(_("Address"))
-    website = models.URLField(_("Website"))
-    contactname = models.CharField(_("Contact Name"),max_length=150)
-    email = models.EmailField(_("Email"))
-    number = models.CharField(_("Contact Number"),max_length=14)
-    desc = models.TextField(_("Brief Description"))
+    address = models.TextField(_("Address"), blank=True)
+    website = models.URLField(_("Website"), blank=True)
+    contactname = models.CharField(_("Contact Name"),max_length=150, blank=True)
+    email = models.EmailField(_("Email"), blank=True)
+    number = models.CharField(_("Contact Number"),max_length=14, blank=True)
+    desc = models.TextField(_("Brief Description"), blank=True)
     def __unicode__(self):
         return "%s " %(self.orgname)
             
 class Event(models.Model):
     author = models.ForeignKey(User,verbose_name=_("Author"))
     eventname = models.CharField(_("Event Name"),max_length=200)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization,null =True,blank=True)
     startdate = models.DateField(_("Event start date"),default = datetime.now)
     enddate = models.DateField(_("End date"), blank=True, null=True)
-    venue = models.CharField(_("Venue"),max_length=300)
-    weblink = models.URLField(_("Event web link"), blank=False)
-    contact = models.EmailField(_("Contact Email"))   
+    venue = models.CharField(_("Venue"),max_length=300, blank=True)
+    weblink = models.URLField(_("Event web link"), blank=True)
+    contact = models.EmailField(_("Contact Email"), blank=True)   
     shortdes = models.TextField(_("Short Description"),blank=True)
     def __unicode__(self):
-        return "%s by %s at %s" %(self.eventname,self.organization,self.venue)
+        return "%s at %s" %(self.eventname,self.venue)
         
