@@ -17,7 +17,7 @@
        
             {% for p in pms %}
             <tr>
-                <td>{{p}}</td>
+                <td><a href="{% url vote id=p.id %}">{{p}}</a> </td>
                 <td>{% for j in p.acceptors %}
 		<br>{{j.fullname}}
 		{% endfor %} 
