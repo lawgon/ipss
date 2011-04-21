@@ -24,7 +24,7 @@
 
 <div class="container">
     <div class="span-18">
-        <img src="/sitemedia/pics/masthead.jpg" width="400" align="center"/>
+        <img src="/sitemedia/pics/drawing.png" height = "110" align="center"/>
     </div>
 
         <div class="span-5 box last">
@@ -104,7 +104,7 @@
 
 {% get_event %}
 {% for e in ev %}
-	<br><a href = "/viewevent/{{e.id}}">{{e.eventname}}</a> by {{e.organization}} at {{e.venue}}
+    <br><a href = "/viewevent/{{e.id}}">{{e.eventname}}</a> by {{e.organization}} at {{e.venue}}
 <br>
 {% endfor %}
 </div>
