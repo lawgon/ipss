@@ -57,6 +57,22 @@ IPSS Team\
 ") %{'username': username,'url': url}
     return msg
     
+def invoice(username,url):
+    """
+    Email body to be sent to user.
+    """
+    msg = _("\
+Dear %(username)s,\n\n\
+\
+Your annual subscription is due. please visit the following url:\n\n\
+%(url)s\n\n\
+and pay your subscription through netbanking or otherwise as described on the righthand column of the site\
+ and enter payment details in the account status page\n\n\
+regards\n\
+IPSS Team\
+") %{'username': username,'url': url}
+    return msg
+    
 def rejectedmsg(username):
     """
     Email body to be sent to user
@@ -650,6 +666,25 @@ def generateinvoice(mem):
                                         dategenerated=datetime.today())
     return 1
     
+def generateinvoices():
+    membs = Member.objects.filter(admitted=True)
+    for mem in membs:
+        amt = 500
+        if mem.membershiptype == 'D':
+            amt = 100000
+        if mem.membershiptype == 'C':
+            amt = 5000
+        if mem.membershiptype == 'A':
+            amt = 5000
+        if mem.membershiptype == 'S':
+            amt = 200
+        dscr = '2'
+        sub = Subscription.objects.create(amount= amt,
+                                            member=mem,
+                                            description=dscr,
+                                            dategenerated=datetime.today())
+    return 1
+    
 def news(request):
     news = Blog.objects.all()
     return render_to_response('web/news.html',context_instance=RequestContext(request,{'news':news}))
@@ -672,16 +707,12 @@ def applicationhandler(sender,**kwargs):
     subj = _("Sorry!!! Your Application got rejected")  
     for cm in mems:
         tot= cm.accept()-cm.reject()
-        print "Total Votes:",tot
         a=cm.pending()
-        print "Pending for",a
 
         if (tot<3 and a>30):
                 msg = rejectedmsg(cm.username)
                 to = [cm.email()]
-                print to, msg
                 send_mail(subj,msg,frm,to)
-                print "Caution: DELETED"
                 cm.delete()
             
     if kwargs['created']:
@@ -701,7 +732,6 @@ def applicationhandler(sender,**kwargs):
             except:
                 generateinvoice(kwargs['instance'])
             url = "http://%s/status/" %(Site.objects.get_current().domain)
-            print kwargs['instance']
             msg = admit(kwargs['instance'],url)
             subj = _("IPSS: Acceptance of your application")
             to = [kwargs['instance'].username.email]
@@ -727,6 +757,13 @@ def paymenthandler(sender,**kwargs):
                 to = [cm.email]
                 
                 send_mail(subj,msg,frm,to)
+    else:
+        url = "http://%s/status/" %(Site.objects.get_current().domain)
+        msg = invoice(kwargs['instance'],url)
+        subj = _("IPSS: Annual subscription due")
+        print kwargs['instance']
+        to = [kwargs['instance'].member.username.email]
+        send_mail(subj,msg,frm,to)
                 
     
         
