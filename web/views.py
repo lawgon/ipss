@@ -659,7 +659,7 @@ def generateinvoice(mem):
         amt = 5100
     if mem.membershiptype == 'S':
         amt = 300
-    dscr = '1'
+    dscr = '2'
     sub = Subscription.objects.create(amount= amt,
                                         member=mem,
                                         description=dscr,
@@ -728,7 +728,7 @@ def applicationhandler(sender,**kwargs):
     else:
         if kwargs['instance'].admitted:
             try:
-                Subscription.objects.get(member=kwargs['instance'],description='1')
+                Subscription.objects.get(member=kwargs['instance'],description='2')
             except:
                 generateinvoice(kwargs['instance'])
             url = "http://%s/status/" %(Site.objects.get_current().domain)
@@ -759,7 +759,7 @@ def paymenthandler(sender,**kwargs):
                 send_mail(subj,msg,frm,to)
     else:
         url = "http://%s/status/" %(Site.objects.get_current().domain)
-        msg = invoice(kwargs['instance'],url)
+        msg = invoice(kwargs['instance'].member.username,url)
         subj = _("IPSS: Annual subscription due")
         print kwargs['instance']
         to = [kwargs['instance'].member.username.email]
