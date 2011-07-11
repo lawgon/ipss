@@ -30,7 +30,10 @@
         <div class="span-5 box last">
             <div>
             {% if request.user.username %}
-                        {% trans "Welcome "%} {{request.user.username}}
+                        {% trans "Welcome "%} 
+                        <a href = "/status/">
+                        {{request.user.username}}
+                        </a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                               <a href="/logout/" >{% trans "logout" %}</a><br/>
              
